@@ -10,7 +10,7 @@ https://b23.tv/NFFXEWc
 ## 🖼️ 硬件实物展示
 下图是项目的实际硬件连接图：
 
-![ESP32 光感监测系统实物连接]
+![ESP32 光感监测系统实物连接]https://github.com/WuQinghui-00/ESP32-Light-Sensor-Monitor/blob/main/images/physical-setup.jpg
 
 ## 项目概览
 一个基于ESP32的智能环境光监测系统，可实时采集光照强度自动控制LED开关并通过本地LCD显示，为智能家居、农业大棚等场景提供低成本监测方案。
