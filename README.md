@@ -15,4 +15,4 @@
 
 ## 硬件清单与接线图
 清单：ESP32、光敏传感器、LCD1602、1k电阻、LED灯、杜邦线、面包板。
-接线图：![ESP32 光感监测接线图](images/esp32-light-sensor-wiring.drawio.png)
+接线图：![ESP32 光感监测接线图](https://github.com/WuQinghui-00/ESP32-Light-Sensor-Monitor/blob/main/images%20/esp32-light-sensor-wiring.drawio.png)
