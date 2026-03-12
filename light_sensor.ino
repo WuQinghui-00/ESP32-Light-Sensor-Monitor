@@ -49,9 +49,9 @@ if(currentSensorState != lastSensorState){
 //更新lcd第二行显示
 lcd.setCursor(6,1);
 if(currentSensorState == HIGH){
-  lcd.print("Dark,ON");
+  lcd.print("Dark,ON   ");
 }else{
-  lcd.print("Bright,OFF");
+  lcd.print("Bright,OFF   ");
 }
 Serial.print("【状态变化】时间: ");
     Serial.print(millis());
