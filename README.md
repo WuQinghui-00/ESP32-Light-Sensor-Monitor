@@ -67,33 +67,53 @@ https://www.bilibili.com/video/BV1T5QSBmEjn/?share_source=copy_web
 接线图：![ESP32 光感监测接线图](https://github.com/WuQinghui-00/ESP32-Light-Sensor-Monitor/blob/main/images%20/esp32-light-sensor-wiring.drawio.png)
 
 
+好的！这是整理好的格式，直接复制到 README 即可：
+
+---
+
+```markdown
 ## 🚀 快速开始
 
 ### 环境准备
-# 安装 ESP-IDF（官方文档）
-# https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/get-started/
 
-# 克隆项目
+安装 ESP-IDF（官方文档）  
+https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/get-started/
+
+克隆项目
+```bash
 git clone https://github.com/WuQinghui-00/ESP32-Light-Sensor-Monitor.git
 cd ESP32-Light-Sensor-Monitor
+```
 
- ### 硬件连接
-参照上方接线图连接你的ESP32开发板。
+### 硬件连接
+
+参照上方接线图连接你的 ESP32 开发板。
 
 ### 编译与烧录
-# 设置目标芯片
+
+设置目标芯片
+```bash
 idf.py set-target esp32
+```
 
-# 编译项目
+编译项目
+```bash
 idf.py build
+```
 
-# 烧录固件（替换 COM3 为实际端口）
+烧录固件（替换 COM3 为实际端口）
+```bash
 idf.py -p COM3 flash
+```
 
-# 打开串口监视器
+打开串口监视器
+```bash
 idf.py -p COM3 monitor
+```
 
 ### 预期输出
+
+```
 I (xxx) MAIN: System: LightMonitor v1.0.0
 I (xxx) SENSOR_TASK: Sensor task started
 I (xxx) CONTROL_TASK: Control task started, LED on GPIO5
@@ -102,8 +122,13 @@ I (xxx) MONITOR_TASK: Monitor task started
 I (xxx) SENSOR_TASK: State: DARK
 I (xxx) CONTROL_TASK: LED turned ON
 I (xxx) DISPLAY_TASK: LCD updated
+```
 
-### 代码结构
+---
+
+## 📁 代码结构
+
+```
 ├── main/
 │   ├── light_sensor_main.c      # 主函数、任务创建、队列初始化
 │   ├── hardware/                 # 硬件抽象层 (HAL)
@@ -121,13 +146,21 @@ I (xxx) DISPLAY_TASK: LCD updated
 ├── CMakeLists.txt                # 构建配置
 ├── LICENSE
 └── README.md
+```
 
-### 后续规划
-- [ ] PWM 调光：LED 亮度平滑调节
-- [ ]自适应算法：动态调整光照阈值
-- [ ]Wi-Fi + MQTT：设备上云，远程监控
-- [ ]OTA 升级：远程固件更新
-- [ ] 低功耗模式：深度睡眠，电池供电
+---
+
+## 📈 后续规划
+
+- [ ] **PWM 调光**：LED 亮度平滑调节
+- [ ] **自适应算法**：动态调整光照阈值
+- [ ] **Wi-Fi + MQTT**：设备上云，远程监控
+- [ ] **OTA 升级**：远程固件更新
+- [ ] **低功耗模式**：深度睡眠，电池供电
+```
+
+---
+
 
 ### 🤝 贡献
 欢迎提交 Issue 和 Pull Request 来帮助改进这个项目。
