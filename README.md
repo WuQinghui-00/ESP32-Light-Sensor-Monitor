@@ -34,27 +34,53 @@ https://b23.tv/NFFXEWc
 
 ---
 
+## 🛠️ 技术栈
+
+| 技术领域 | 具体实现 |
+|---------|---------|
+| **芯片平台** | ESP32 (Xtensa LX6 双核) |
+| **开发框架** | ESP-IDF v5.3.1 |
+| **实时操作系统** | FreeRTOS（任务调度、队列通信、任务通知）|
+| **外设驱动** | GPIO（输入/输出）、I2C（LCD 通信）|
+| **编程语言** | C11 |
+| **构建工具** | CMake / Ninja |
+| **版本控制** | Git / GitHub |
+
+---
+
+
+### 任务职责说明
+
+| 任务 | 优先级 | 栈大小 | 职责 |
+|------|--------|--------|------|
+| **Sensor Task** | 3（最高） | 4KB | 采集光敏传感器状态，发送到队列 |
+| **Control Task** | 2 | 4KB | 接收传感器数据，控制 LED 开关 |
+| **Display Task** | 2 | 4KB | 接收传感器数据，更新 LCD 显示 |
+| **Monitor Task** | 1（最低）| 4KB | 系统监控、日志上报、统计信息 |
+
+> **设计考量**：Sensor 任务作为数据源头优先级最高，确保数据实时采集；Monitor 任务仅做日志上报，优先级最低，不影响核心控制逻辑。
+
+---
 ## 硬件清单与接线图
 清单：ESP32、光敏传感器、LCD1602、1k电阻、LED灯、杜邦线、面包板。
 
 接线图：![ESP32 光感监测接线图](https://github.com/WuQinghui-00/ESP32-Light-Sensor-Monitor/blob/main/images%20/esp32-light-sensor-wiring.drawio.png)
 
-### 快速开始
-1.  **克隆仓库**
-bash
+
+## 🚀 快速开始
+
+### 环境准备
+```bash
+# 安装 ESP-IDF（官方文档）
+# https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/get-started/
+
+# 克隆项目
 git clone https://github.com/WuQinghui-00/ESP32-Light-Sensor-Monitor.git
 cd ESP32-Light-Sensor-Monitor
-2.  **硬件连接**
+
+ ### 硬件连接
 参照上方接线图连接你的ESP32开发板。
-3.  **环境配置**
-- 安装 Arduino IDE 
-- 安装必要的库：`LiquidCrystal_I2C`。
-4.  **编译与上传**
-- 用 Arduino IDE 打开 `light_sensor.ino`。
-- 选择正确的开发板（ESP32 Dev Module）和端口。
-- 点击上传。
-5.  **观察结果**
-观察LCD屏幕显示，并打开串口监视器（波特率115200）查看数据流。
+
 
 ### 进阶使用
 - **连接Wi-Fi**：代码已预留网络接口，可轻松扩展MQTT协议上报数据至云端。
