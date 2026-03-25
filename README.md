@@ -70,7 +70,6 @@ https://b23.tv/NFFXEWc
 ## 🚀 快速开始
 
 ### 环境准备
-```bash
 # 安装 ESP-IDF（官方文档）
 # https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/get-started/
 
@@ -81,15 +80,54 @@ cd ESP32-Light-Sensor-Monitor
  ### 硬件连接
 参照上方接线图连接你的ESP32开发板。
 
+### 编译与烧录
+# 设置目标芯片
+idf.py set-target esp32
 
-### 进阶使用
-- **连接Wi-Fi**：代码已预留网络接口，可轻松扩展MQTT协议上报数据至云端。
-- **阈值调节**：可通过修改代码中的 `LIGHT_THRESHOLD` 变量来调整光敏触发灵敏度。
+# 编译项目
+idf.py build
 
-### 未来计划
-- [ ] 实现通过手机APP（如Blinker）远程监控
-- [ ] 使用FreeRTOS进行多任务管理
-- [ ] 设计并打样一体化PCB
+# 烧录固件（替换 COM3 为实际端口）
+idf.py -p COM3 flash
+
+# 打开串口监视器
+idf.py -p COM3 monitor
+
+### 预期输出
+I (xxx) MAIN: System: LightMonitor v1.0.0
+I (xxx) SENSOR_TASK: Sensor task started
+I (xxx) CONTROL_TASK: Control task started, LED on GPIO5
+I (xxx) DISPLAY_TASK: Display task started
+I (xxx) MONITOR_TASK: Monitor task started
+I (xxx) SENSOR_TASK: State: DARK
+I (xxx) CONTROL_TASK: LED turned ON
+I (xxx) DISPLAY_TASK: LCD updated
+
+### 代码结构
+├── main/
+│   ├── light_sensor_main.c      # 主函数、任务创建、队列初始化
+│   ├── hardware/                 # 硬件抽象层 (HAL)
+│   │   ├── light_sensor.c/h      # 光敏传感器驱动
+│   │   └── lcd1602_i2c.c/h       # LCD1602 I2C 驱动
+│   ├── tasks/                    # FreeRTOS 任务层
+│   │   ├── sensor_task.c/h       # 传感器采集任务
+│   │   ├── control_task.c/h      # 控制逻辑任务
+│   │   ├── display_task.c/h      # 显示更新任务
+│   │   └── monitor_task.c/h      # 系统监控任务
+│   └── include/                  # 公共配置
+│       ├── config.h              # 系统配置（引脚、栈大小、优先级）
+│       ├── common_defs.h         # 公共数据结构
+│       └── queue_defs.h          # 队列句柄声明
+├── CMakeLists.txt                # 构建配置
+├── LICENSE
+└── README.md
+
+### 后续规划
+- [ ] PWM 调光：LED 亮度平滑调节
+- [ ]自适应算法：动态调整光照阈值
+- [ ]Wi-Fi + MQTT：设备上云，远程监控
+- [ ] OTA 升级：远程固件更新
+- [ ] 低功耗模式：深度睡眠，电池供电
 
 ### 🤝 贡献
 欢迎提交 Issue 和 Pull Request 来帮助改进这个项目。
