@@ -5,7 +5,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/WuQinghui-00/ESP32-Light-Sensor-Monitor)
 
 ## 项目演示视频
-https://b23.tv/NFFXEWc
+https://www.bilibili.com/video/BV1T5QSBmEjn/?share_source=copy_web
 
 ## 🖼️ 硬件实物展示
 下图是项目的实际硬件连接图：
