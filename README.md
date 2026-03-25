@@ -1,5 +1,9 @@
 # ESP32 光敏传感器监测系统
 
+## 项目概览
+基于 **ESP32** 和 **FreeRTOS** 的嵌入式物联网系统，实现环境光照监测、设备自动控制、实时数据显示。项目展示了嵌入式软件开发中的多任务架构设计、实时操作系统应用、外设驱动开发等核心能力。
+
+---
 ![GitHub](https://img.shields.io/github/license/WuQinghui-00/ESP32-Light-Sensor-Monitor)
 ![GitHub last commit](https://img.shields.io/github/last-commit/WuQinghui-00/ESP32-Light-Sensor-Monitor)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/WuQinghui-00/ESP32-Light-Sensor-Monitor)
@@ -12,10 +16,7 @@ https://www.bilibili.com/video/BV1T5QSBmEjn/?share_source=copy_web
 
 ![ESP32 光感监测系统实物连接](https://github.com/WuQinghui-00/ESP32-Light-Sensor-Monitor/blob/main/images/physical-setup.jpg)
 
-## 项目概览
-基于 **ESP32** 和 **FreeRTOS** 的嵌入式物联网系统，实现环境光照监测、设备自动控制、实时数据显示。项目展示了嵌入式软件开发中的多任务架构设计、实时操作系统应用、外设驱动开发等核心能力。
 
----
 ## 📋 功能特性
 
 | 模块 | 实现 | 技术亮点 |
