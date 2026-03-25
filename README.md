@@ -67,11 +67,10 @@ https://www.bilibili.com/video/BV1T5QSBmEjn/?share_source=copy_web
 接线图：![ESP32 光感监测接线图](https://github.com/WuQinghui-00/ESP32-Light-Sensor-Monitor/blob/main/images%20/esp32-light-sensor-wiring.drawio.png)
 
 
-好的！这是整理好的格式，直接复制到 README 即可：
+
 
 ---
 
-```markdown
 ## 🚀 快速开始
 
 ### 环境准备
