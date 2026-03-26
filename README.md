@@ -11,6 +11,9 @@
 ## 项目演示视频
 【基于ESP32和FreeRTOS的智能光照监测系统-哔哩哔哩】 https://b23.tv/EJGWNB5
 
+## 项目博客记录
+【ESP32 + FreeRTOS 智能光照监测系统（附源码） -  CSDN App】https://blog.csdn.net/2501_92470428/article/details/159498961?sharetype=blogdetail&shareId=159498961&sharerefer=APP&sharesource=2501_92470428&sharefrom=link
+
 ## 🖼️ 硬件实物展示
 下图是项目的实际硬件连接图：
 
