@@ -4,7 +4,6 @@
 #include "freertos/queue.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
-#include "esp_timer.h"
 
 // 包含任务头文件
 #include "tasks/sensor_task.h"
@@ -24,36 +23,16 @@ QueueHandle_t control_cmd_queue = NULL;
 // 创建所有任务
 static void create_all_tasks(void)
 {
-    // 创建队列
     sensor_data_queue = xQueueCreate(QUEUE_LENGTH_SENSOR, sizeof(sensor_data_t));
     control_cmd_queue = xQueueCreate(QUEUE_LENGTH_CONTROL, sizeof(control_cmd_t));
     
-    if (sensor_data_queue == NULL || control_cmd_queue == NULL) {
-        ESP_LOGE(TAG, "Failed to create queues");
-        return;
-    }
-    
-    // 创建控制任务参数
-    control_task_params_t control_params = {
-        .sensor_queue = sensor_data_queue,
-        .cmd_queue = control_cmd_queue,
-    };
-    
-    // 创建显示任务参数
-    display_task_params_t display_params = {
-        .sensor_queue = sensor_data_queue,
-    };
-    
-    // 创建监控任务参数
-    monitor_task_params_t monitor_params = {
-        .sensor_queue = sensor_data_queue,
-    };
-    
-    // 创建任务
+    // 只创建 Sensor 任务
     xTaskCreate(sensor_task, "Sensor", TASK_STACK_SENSOR, NULL, TASK_PRIO_SENSOR, NULL);
-    xTaskCreate(control_task, "Control", TASK_STACK_CONTROL, &control_params, TASK_PRIO_CONTROL, NULL);
-    xTaskCreate(display_task, "Display", TASK_STACK_DISPLAY, &display_params, TASK_PRIO_DISPLAY, NULL);
-    xTaskCreate(monitor_task, "Monitor", TASK_STACK_MONITOR, &monitor_params, TASK_PRIO_MONITOR, NULL);
+    
+    // 暂时注释掉其他任务
+    // xTaskCreate(control_task, "Control", TASK_STACK_CONTROL, &control_params, TASK_PRIO_CONTROL, NULL);
+    // xTaskCreate(display_task, "Display", TASK_STACK_DISPLAY, &display_params, TASK_PRIO_DISPLAY, NULL);
+    // xTaskCreate(monitor_task, "Monitor", TASK_STACK_MONITOR, &monitor_params, TASK_PRIO_MONITOR, NULL);
     
     ESP_LOGI(TAG, "All tasks created");
 }
@@ -77,6 +56,6 @@ void app_main(void)
     
     ESP_LOGI(TAG, "System started successfully");
     
-    // 主任务可以删除自己，或者做其他初始化工作
+    // 主任务删除自己
     vTaskDelete(NULL);
 }
