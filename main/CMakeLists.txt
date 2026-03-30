@@ -1,4 +1,4 @@
-idf_component_register(SRCS "light_sensor_main.c"
+idf_component_register(SRCS "wifi_manager.c" "light_sensor_main.c"
     "hardware/light_sensor.c"
     "hardware/lcd1602_i2c.c"
     "tasks/sensor_task.c"
@@ -9,7 +9,6 @@ idf_component_register(SRCS "light_sensor_main.c"
     "hardware"
     "tasks"
     "include"
-    REQUIRES driver nvs_flash esp_timer freertos)
+    REQUIRES driver nvs_flash esp_timer freertos esp_wifi esp_http_client esp_pm mqtt)
 
-# 禁用警告转错误，方便编译
 target_compile_options(${COMPONENT_TARGET} PRIVATE -Wno-error)
