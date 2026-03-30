@@ -1,9 +1,9 @@
-# ESP32+FreeRTOS光敏传感器监测系统
+# ESP32 智能光照监测系统（FreeRTOS + MQTT）
 
 ## 项目概览
-基于 **ESP32** 和 **FreeRTOS** 的嵌入式物联网系统，实现环境光照监测、设备自动控制、实时数据显示。项目展示了嵌入式软件开发中的多任务架构设计、实时操作系统应用、外设驱动开发等核心能力。
-
+基于 ESP32 和 FreeRTOS 的物联网智能光照监测系统，实现环境光照检测、LED 自动控制、LCD 实时显示，并支持 **Wi-Fi 连接** 和 **MQTT 云端数据上报与远程控制**。
 ---
+
 ![GitHub](https://img.shields.io/github/license/WuQinghui-00/ESP32-Light-Sensor-Monitor)
 ![GitHub last commit](https://img.shields.io/github/last-commit/WuQinghui-00/ESP32-Light-Sensor-Monitor)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/WuQinghui-00/ESP32-Light-Sensor-Monitor)
@@ -30,28 +30,38 @@
 | **状态管理** | 实时状态机 | 代码健壮性 |
 | **日志系统** | 分级日志输出 | 便于调试与问题定位 |
 
-### 核心功能
-- ✅ **实时监测**：光敏传感器毫秒级响应，精准检测环境光照
-- ✅ **自动控制**：暗环境自动开启 LED，亮环境自动关闭
-- ✅ **本地显示**：I2C 接口 LCD1602 实时显示系统状态
-- ✅ **多任务协同**：Sensor（采集）→ Control（控制）→ Display（显示）→ Monitor（监控）数据流闭环
-- ✅ **低功耗优化**：实现 light sleep 模式，待机电流降至 2mA，续航提升 40 倍
+
+### 本地功能
+| 功能 | 说明 |
+|------|------|
+| ✅ **FreeRTOS 多任务架构** | Sensor/Control/Display/Monitor 4 个独立任务，队列通信，模块解耦 |
+| ✅ **光照检测** | 光敏传感器实时采集环境光照 |
+| ✅ **LED 自动控制** | 暗环境自动开灯，亮环境自动关灯 |
+| ✅ **LCD 实时显示** | 显示光照状态（BRIGHT/DARK）和 LED 状态 |
+| ✅ **低功耗优化** | light sleep 模式，待机电流 80mA → 2mA，续航提升 **40 倍** |
+| ✅ **串口日志** | 实时输出系统状态，便于调试 |
+
+### 云端功能
+| 功能 | 说明 |
+|------|------|
+| ✅ **Wi-Fi 连接** | 自动连接，支持断线重连 |
+| ✅ **MQTT 数据上报** | 每 3 秒上报光照数据（JSON 格式） |
+| ✅ **远程控制** | 手机/电脑发送 `LED_ON` / `LED_OFF` 远程控制 LED |
+
 ---
 
 ## 🛠️ 技术栈
 
-| 技术领域 | 具体实现 |
-|---------|---------|
-| **芯片平台** | ESP32 (Xtensa LX6 双核) |
-| **开发框架** | ESP-IDF v5.3.1 |
-| **实时操作系统** | FreeRTOS（任务调度、队列通信、任务通知）|
-| **外设驱动** | GPIO（输入/输出）、I2C（LCD 通信）|
-| **编程语言** | C11 |
-| **构建工具** | CMake / Ninja |
-| **版本控制** | Git / GitHub |
+| 层级 | 技术 |
+|------|------|
+| 芯片 | ESP32 |
+| 框架 | ESP-IDF v5.3.1 |
+| RTOS | FreeRTOS |
+| 通信协议 | Wi-Fi、MQTT |
+| 外设驱动 | ADC、GPIO、I2C |
+| 云平台 | EMQX 公共 MQTT 服务器 |
 
 ---
-
 
 ### 任务职责说明
 
@@ -133,20 +143,20 @@ I (xxx) DISPLAY_TASK: LCD updated
 
 ```
 ├── main/
-│   ├── light_sensor_main.c      # 主函数、任务创建、队列初始化
-│   ├── hardware/                 # 硬件抽象层 (HAL)
-│   │   ├── light_sensor.c/h      # 光敏传感器驱动
-│   │   └── lcd1602_i2c.c/h       # LCD1602 I2C 驱动
-│   ├── tasks/                    # FreeRTOS 任务层
-│   │   ├── sensor_task.c/h       # 传感器采集任务
-│   │   ├── control_task.c/h      # 控制逻辑任务
-│   │   ├── display_task.c/h      # 显示更新任务
-│   │   └── monitor_task.c/h      # 系统监控任务
-│   └── include/                  # 公共配置
-│       ├── config.h              # 系统配置（引脚、栈大小、优先级）
-│       ├── common_defs.h         # 公共数据结构
-│       └── queue_defs.h          # 队列句柄声明
-├── CMakeLists.txt                # 构建配置
+│ ├── light_sensor_main.c # 主函数、Wi-Fi、MQTT、任务创建
+│ ├── hardware/ # 硬件抽象层 (HAL)
+│ │ ├── light_sensor.c/h # 光敏传感器驱动
+│ │ └── lcd1602_i2c.c/h # LCD1602 I2C 驱动
+│ ├── tasks/ # FreeRTOS 任务层
+│ │ ├── sensor_task.c/h # 传感器采集任务（含 MQTT 发布）
+│ │ ├── control_task.c/h # 控制逻辑任务
+│ │ ├── display_task.c/h # 显示更新任务
+│ │ └── monitor_task.c/h # 系统监控任务
+│ └── include/ # 公共配置
+│ ├── config.h # 系统配置（引脚、栈大小、优先级）
+│ ├── common_defs.h # 公共数据结构
+│ └── queue_defs.h # 队列句柄声明
+├── CMakeLists.txt
 ├── LICENSE
 └── README.md
 ```
@@ -157,9 +167,9 @@ I (xxx) DISPLAY_TASK: LCD updated
 
 - [ ] **PWM 调光**：LED 亮度平滑调节
 - [ ] **自适应算法**：动态调整光照阈值
-- [ ] **Wi-Fi + MQTT**：设备上云，远程监控
+- [ ] **Wi-Fi + MQTT**：设备上云，远程监控✔️
 - [ ] **OTA 升级**：远程固件更新
-- [ ] **低功耗模式**：深度睡眠，电池供电
+- [ ] **低功耗模式**：深度睡眠，电池供电✔️
 
 
 ---
