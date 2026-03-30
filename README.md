@@ -102,6 +102,13 @@ cd ESP32-Light-Sensor-Monitor
 
 参照上方接线图连接你的 ESP32 开发板。
 
+### 配置Wi-Fi
+在 main/light_sensor_main.c 中修改 Wi-Fi 名称和密码：
+```bash
+#define WIFI_SSID      "你的WiFi名称"
+#define WIFI_PASS      "你的WiFi密码"
+```
+
 ### 编译与烧录
 
 设置目标芯片
@@ -128,13 +135,10 @@ idf.py -p COM3 monitor
 
 ```
 I (xxx) MAIN: System: LightMonitor v1.0.0
-I (xxx) SENSOR_TASK: Sensor task started
-I (xxx) CONTROL_TASK: Control task started, LED on GPIO5
-I (xxx) DISPLAY_TASK: Display task started
-I (xxx) MONITOR_TASK: Monitor task started
-I (xxx) SENSOR_TASK: State: DARK
+I (xxx) WIFI: Got IP: 172.20.10.2
+I (xxx) MQTT: MQTT connected
+I (xxx) SENSOR_TASK: State: DARK, Voltage: 500mV
 I (xxx) CONTROL_TASK: LED turned ON
-I (xxx) DISPLAY_TASK: LCD updated
 ```
 
 ---
